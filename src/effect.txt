@@ -1,0 +1,23 @@
+1 速度（Speed）
+2 缓慢（Slowness）
+3 急迫（Haste）
+4 挖掘疲劳（Mining Fatigue）
+5 力量（Strength）
+6 瞬间治疗（Instant Health）
+7 瞬间伤害（Instant Damage）
+8 跳跃提升（Jump Boost）
+9 反胃（Nausea）
+10 生命回复（Regeneration）
+11 抗性提升（Resistance）
+12 抗火（Fire Resistance）
+13 水下呼吸（Water Breathing）
+14 隐身（Invisibility）
+15 失明（Blindness）
+16 夜视（Night vision）
+17 饥饿（Hunger）
+18 虚弱（Weakness）
+19 中毒（Poison）
+20 凋零（Wither）
+21 生命提升（Health Boost）
+22 伤害吸收（Absorption）
+23 饱和（Saturation）
