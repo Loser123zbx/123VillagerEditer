@@ -66,6 +66,8 @@ class MyFrame2 ( wx.Frame ):
 		self.m_staticText4 = wx.StaticText(self, wx.ID_ANY, _(u"个"), wx.DefaultPosition, wx.DefaultSize, 0)
 		self.m_staticText4.Wrap(-1)
 
+
+
 		bSizer5.Add(self.m_staticText4, 0, wx.ALL, 5)
 
 
@@ -111,12 +113,25 @@ class MyFrame2 ( wx.Frame ):
 
 		main.Add(nbt, 1, wx.EXPAND, 5)
 
+		self.add = wx.Button(self, wx.ID_ANY, _(u"添加"), wx.DefaultPosition, wx.DefaultSize, 0)
+		main.Add(self.add, 0, wx.EXPAND, 5)
+
 
 		self.SetSizer( main )
 		self.Layout()
 
 		self.Centre(wx.BOTH)
 
+		self.add.Bind(wx.EVT_BUTTON, self.OnAdd)
+	def OnAdd(self, event):
+		sellItem = self.sellItem.GetValue()
+		sellNum = self.sellNum.GetValue()
+		shouItem = self.shouItem.GetValue()
+		shouNam = self.shouNam.GetValue()
+
+
+
+		self.Destroy()
 
 class MyFrame1 ( wx.Frame ):
 
@@ -168,7 +183,10 @@ class MyFrame1 ( wx.Frame ):
 		self.project.AppendItems(["项目1", "项目2", "项目3"])
 
 	def OnAdd(self, event):
-		self.project.Append(self.m_textCtrl8.GetValue())
+		app = wx.App()
+		frame = MyFrame2(None)
+		frame.Show()
+		app.MainLoop()
 
 	def OnDelete(self, event):
 		try:
