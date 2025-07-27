@@ -1,0 +1,83 @@
+name: Build and Package Python App 
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. v1.2.3)'
+        required: true
+        type: string
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ['3.8.x']
+
+    outputs:
+      win-artifact: 123VillagerEditor-win
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller==4.10  
+
+      - name: Build executable with PyInstaller
+        run: |
+          pyinstaller --noconfirm
+          --onefile 
+          --console
+          --name"123VillagerEditor" 
+          --add-data "src\blocks.txt;.blocks.txt" 
+          --add-data "src\enchants.txt;.enchants.txt" 
+          --add-data "src\effect.txt;.effect.txt" "D:\123_codes\123VillagerEditer\src\main.py"
+
+      - name: Move exe to src and prepare release folder
+        run: |
+          Move-Item -Path "dist/123VillagerEditor.exe" -Destination "src/"
+          Move-Item -Path "src" -Destination "release"
+
+      - name: Zip release folder
+        run: |
+          Compress-Archive -Path "release/*" -DestinationPath "release.zip"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: -win
+          path: release.zip
+          
+
+  release:
+    needs: [build-windows]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: 123VillagerEditor-win
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: ${{ github.event.inputs.version }}
+          files: |
+            artifacts/release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
