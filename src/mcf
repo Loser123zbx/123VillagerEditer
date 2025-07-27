@@ -1,0 +1,58 @@
+/summon Villager ~ ~2 ~
+{
+Invulnerable:1,
+NoAI:1,
+PersistenceRequired:1,
+Offers:{
+Recipes:[
+{maxUses:10000,buy:{id:297,Count:1},sell:{id:388,Count:4}},
+{maxUses:10000,buy:{id:388,Count:35},sell:{id:267,Count:1,tag:{Enchantments:[{id:10,lvl:2}]}}},
+{maxUses:10000,buy:{id:267,Count:1,tag:{Enchantments:[{id:10,lvl:2}]}}},sell:{id:264,Count:3}},
+{maxUses:10000,buy:{id:267,Count:1,tag:{Enchantments:[{id:10,lvl:2}]}},buyB:{id:388,Count:2},sell:{id:264,Count:5}}]}}
+
+/summon Villager ~ ~2 ~
+{
+Invulnerable:1,
+NoAI:1,
+PersistenceRequired:1,
+Offers:{
+Recipes:[
+{maxUses:10000,buy:{id:"minecraft:bread",Count:1},sell:{id:"minecraft:emerald",Count:4}},
+{maxUses:10000,buy:{id:"minecraft:emerald",Count:35},sell:{id:"minecraft:iron_sword",Count:1,tag:{Ench:[{id:"minecraft:fire_aspect",lvl:2}]}}},
+{maxUses:10000,buy:{id:"minecraft:iron_sword",Count:1,tag:{Ench:[{id:"minecraft:fire_aspect",lvl:2}]}}},sell:{id:"minecraft:diamond",Count:3}},
+{maxUses:10000,buy:{id:"minecraft:iron_sword",Count:1,tag:{Ench:[{id:"minecraft:fire_aspect",lvl:2}]}},buyB:{id:"minecraft:emerald",Count:2},sell:{id:"minecraft:diamond",Count:5}}]
+}
+}
+
+/summon Villager ~ ~1 ~ {
+    Invulnerable:1,
+    NoAI:1,
+    PersistenceRequired:1,
+    Offers:{
+        Recipes:[
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:1}, sell:{id:minecraft:arrow,Count:16}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:1}, sell:{id:minecraft:bow,Count:1}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:2}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:48,lvl:1}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:3}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:49,lvl:1}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:4}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:49,lvl:2}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:5}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:51,lvl:1}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:6}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:50,lvl:1}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:8}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:48,lvl:3}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:12}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:48,lvl:5}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:16}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:48,lvl:5},{id:49,lvl:1}]}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:20},buyB:{id:"minecraft:emerald",Count:2}, sell:{id:minecraft:bow,Count:1,tag:{ench:[{id:48,lvl:5},{id:50,lvl:1},{id:49,lvl:2}]}}}
+        ]
+    }
+}
+
+/summon Villager ~ ~1 ~ {
+    Invulnerable:1,
+    NoAI:1,
+    PersistenceRequired:1,
+    Offers:{
+        Recipes:[
+
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:2}, sell:{id:minecraft:bow,Count:1,tag:{""}}},
+        ]
+    }
+}
