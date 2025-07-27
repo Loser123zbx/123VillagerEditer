@@ -51,8 +51,17 @@ Recipes:[
     PersistenceRequired:1,
     Offers:{
         Recipes:[
-
-            {maxUses:100000, buy:{id:minecraft:emerald,Count:2}, sell:{id:minecraft:bow,Count:1,tag:{""}}},
+            {maxUses:100000, buy:{id:minecraft:emerald,Count:2}, sell:{id:minecraft:bow,Count:1,tag:{}}},
         ]
     }
 }
+
+
+/summon Villager ~ ~1 ~ {
+    Invulnerable:1,
+    NoAI:1,
+    PersistenceRequired:1,
+    Offers:{
+        Recipes:[
+            {{maxUses:100000, buy:{id:minecraft:emerald,Count:1,tag:{}},sell:{id:minecraft:bread,Count:4,tag:{}}}}]
+        }

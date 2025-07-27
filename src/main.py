@@ -31,7 +31,7 @@ projects = {}
 #  Class MyFrame1
 #---------------------------------------------------------------------------
 class MyFrame2 ( wx.Dialog ):  # 改为继承 wx.Dialog
-	global projects
+	global projects,items
 	def __init__( self, parent ):
 		wx.Dialog.__init__(self, parent, id=wx.ID_ANY, title=u"添加项目",pos=wx.DefaultPosition, size=wx.Size(800, 460),style=wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER)
 		self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)  # 第49行
@@ -110,11 +110,13 @@ class MyFrame2 ( wx.Dialog ):  # 改为继承 wx.Dialog
 		self.shouNBT = wx.StaticText(self, wx.ID_ANY, _(u"收购物品1NBT"), wx.DefaultPosition, wx.DefaultSize, 0)
 		self.shouNBT.Wrap(-1)
 
+
 		shou.Add(self.shouNBT, 0, wx.ALL, 5)
 
 		self.shouInput = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE)
 		self.shouInput.SetFont(wx.Font( 11, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Consolas" ))
 		self.shouInput.SetBackgroundColour(wx.SystemSettings.GetColour( wx.SYS_COLOUR_APPWORKSPACE ))
+		self.shouInput.SetValue("{}")
 
 		shou.Add(self.shouInput, 1, wx.ALL|wx.EXPAND, 5)
 
@@ -126,6 +128,7 @@ class MyFrame2 ( wx.Dialog ):  # 改为继承 wx.Dialog
 		self.shouInput2 = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE)
 		self.shouInput2.SetFont(wx.Font( 11, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Consolas" ))
 		self.shouInput2.SetBackgroundColour(wx.SystemSettings.GetColour( wx.SYS_COLOUR_APPWORKSPACE ))
+		self.shouInput2.SetValue("{}")
 
 		shou.Add(self.shouInput2, 1, wx.ALL|wx.EXPAND, 5)
 
@@ -142,6 +145,7 @@ class MyFrame2 ( wx.Dialog ):  # 改为继承 wx.Dialog
 		self.sellInput = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE)
 		self.sellInput.SetFont(wx.Font( 11, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Consolas" ))
 		self.sellInput.SetBackgroundColour(wx.SystemSettings.GetColour( wx.SYS_COLOUR_APPWORKSPACE ))
+		self.sellInput.SetValue("{}")
 
 		sell.Add(self.sellInput, 1, wx.ALL|wx.EXPAND, 5)
 
@@ -169,17 +173,21 @@ class MyFrame2 ( wx.Dialog ):  # 改为继承 wx.Dialog
 		shouNum = self.shouNam.GetValue()
 		shouItemB = self.shouItem2.GetValue()
 		shouNumB = self.shouNam2.GetValue()
+		shouNBT = self.shouInput.GetValue()
+		shouNBT2 = self.shouInput2.GetValue()
+		sellNBT = self.sellInput.GetValue()
+
 		if shouItemB != "":
-			projects[f"{shouItem}*{shouNum}+{shouItemB}*{shouNumB}->{sellItem}*{sellNum}"] = "{maxUses:100000, buy:{id:%s,Count:%d}, buyB:{id:%s,Count:%d}, sell:{id:%s,Count:%d}}"%(shouItem, int(shouNum),shouItemB, int(shouNumB), sellItem, int(sellNum),)
+			projects[f"{shouItem}*{shouNum}+{shouItemB}*{shouNumB}->{sellItem}*{sellNum} "] = "{maxUses:100000, buy:{id:%s,Count:%d,tag:%s}, buyB:{id:%s,Count:%d,tag:%s}, sell:{id:%s,Count:%d,tag:%s}}"%(items[shouItem], int(shouNum),shouNBT ,items[shouItemB], int(shouNumB),shouNBT2, items[sellItem], int(sellNum),sellNBT)
 		else:
-			projects[f"{shouItem}*{shouNum}->{sellItem}*{sellNum}"] = "{maxUses:100000, buy:{id:%s,Count:%d}, sell:{id:%s,Count:%d}}"%(shouItem, int(shouNum), sellItem, int(sellNum))
+			projects[f"{shouItem}*{shouNum}->{sellItem}*{sellNum} "] = "{maxUses:100000, buy:{id:%s,Count:%d,tag:%s},sell:{id:%s,Count:%d,tag:%s}}"%(items[shouItem], int(shouNum),shouNBT,items[sellItem], int(sellNum),sellNBT)
 		self.Close()
 
 	def __del__(self):
 		pass
 
 class MyFrame1 ( wx.Frame ):
-	global sellItem, sellNum, shouItem, shouNam, shouItemB, shouNamB
+	global projects
 
 	def __init__(self, parent):
 		wx.Frame.__init__ (self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 800,460 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL)
@@ -210,9 +218,11 @@ class MyFrame1 ( wx.Frame ):
 
 		self.invincibility = wx.CheckBox(self, wx.ID_ANY, _(u"村民无敌"), wx.DefaultPosition, wx.DefaultSize, 0)
 		bSizer2.Add(self.invincibility, 0, wx.ALL, 5)
+		self.invincibility.SetValue(True)
 
 		self.NoAI = wx.CheckBox(self, wx.ID_ANY, _(u"无AI"), wx.DefaultPosition, wx.DefaultSize, 0)
 		bSizer2.Add(self.NoAI, 0, wx.ALL, 5)
+		self.NoAI.SetValue(True)
 
 
 		main.Add(bSizer2, 1, wx.EXPAND, 5)
@@ -245,17 +255,36 @@ class MyFrame1 ( wx.Frame ):
 		command = list(projects.values())
 		command = ",".join(command)
 		command = """
+/summon Villager ~ ~1 ~ {
+    Invulnerable:%d,
+    NoAI:%d,
+    PersistenceRequired:1,
     Offers:{
-        Recipes:[{%s}]
+        Recipes:[%s]
         }
-"""
-		self.m_textCtrl8.SetLabel("")
+    }
+"""%(int(self.invincibility.GetValue()),int(self.NoAI.GetValue()),command)
+		self.m_textCtrl8.SetLabel(command)
 
 	def OnDelete(self, event):
 		try:
 			self.project.Delete(self.project.GetSelection())
+			command = list(projects.values())
+			command = ",".join(command)
+			command = """
+			/summon Villager ~ ~1 ~ {
+			    Invulnerable:%d,
+			    NoAI:%d,
+			    PersistenceRequired:1,
+			    Offers:{
+			        Recipes:[%s]
+			        }
+			    }
+			""" % (int(self.invincibility.GetValue()), int(self.NoAI.GetValue()), command)
+			self.m_textCtrl8.SetLabel(command)
 		except:
 			wx.MessageBox(u"请选择一个项目", u"提示")
+
 
 
 
